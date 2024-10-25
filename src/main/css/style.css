@@ -1,0 +1,80 @@
+:root {
+    --symbol-fonts: "Arial Unicode", "Apple Symbols", "Symbol", "Symbola_hint";
+    --body-family: "Noto Serif", serif, var(--symbol-fonts);
+    --title-family: "Noto Sans", sans-serif, var(--symbol-fonts);
+    --mono-family: "JetBrains Mono", monospace, var(--symbol-fonts);
+    font-size: 14pt;
+}
+
+html {
+    font-family: var(--body-family);
+}
+
+body {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 50rem;
+}
+
+body header {
+    width: 100%;
+    text-align: center;
+}
+
+body header p {
+    line-height: 2.5;
+}
+
+main {
+    padding-top: 1rem;
+    clear: left;
+}
+
+#homelogo {
+    max-width: 50%;
+}
+
+del {
+    text-decoration-thickness: 20%;
+    text-decoration-color: red;
+}
+
+ins {
+    text-decoration: none;
+    font-style: italic;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--title-family);
+}
+
+code {
+    font-family: var(--mono-family);
+}
+
+a,
+a:visited {
+    color: inherit;
+}
+
+/* ============================================================ */
+
+.choice {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.choice div {
+    text-align: center;
+    flex: 1 1 200px;
+}
+
+.choice button {
+    font-size: 2rem;
+    padding: 0.5rem;
+}
+
+.choice p {
+    margin-top: 0.5em;
+    font-size: small;
+}
