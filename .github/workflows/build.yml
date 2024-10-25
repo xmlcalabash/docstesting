@@ -61,11 +61,11 @@ jobs:
           path: "docs"
           ref: "gh-pages"
 
-       - name: print versions
-         run: |
-          GUIDEVER=`jq -r .version documentation/build/userguide/details.json`
-          REFVER=`jq -r .version documentation/build/reference/details.json`
-          echo Guide: $GUIDEVER, reference: $REFVER
+      - name: print versions
+        run: |
+         GUIDEVER=`jq -r .version documentation/build/userguide/details.json`
+         REFVER=`jq -r .version documentation/build/reference/details.json`
+         echo Guide: $GUIDEVER, reference: $REFVER
 
 #      - name: Update user guide
 #        run: |
