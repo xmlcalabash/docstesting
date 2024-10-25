@@ -57,7 +57,6 @@ jobs:
         if: ${{ env.HAVE_ACCESS_TOKEN == 'true' && env.CI_BRANCH == 'main' }}
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.ACCESS_TOKEN }}
           repository: ${{ github.repository_owner}}/docs
           path: "docs"
           ref: "gh_pages"
