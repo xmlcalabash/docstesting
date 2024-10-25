@@ -65,3 +65,10 @@ jobs:
         run: |
           ls -l
           ls -l docs
+          ls -l docs/docs
+
+      - name: Update documentation
+        run: |
+          GUIDEVER=`cat documentation/build/userguide/version`
+          ls -l docs/docs/userguide
+          echo "$GUIDEVER"
