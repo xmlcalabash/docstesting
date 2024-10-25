@@ -67,8 +67,22 @@ jobs:
           ls -l docs
           ls -l docs/docs
 
-      - name: Update documentation
+      - name: Update user guide
         run: |
           GUIDEVER=`cat documentation/build/userguide/version`
-          ls -l docs/docs/userguide
-          echo "$GUIDEVER"
+          rm -rf docs/docs/userguide/current
+          rm -rf docs/docs/userguide/$GUIDEVER
+          rsync -ar documentation/build/userguide/ docs/docs/userguide/current/
+          rsync -ar documentation/build/userguide/ docs/docs/userguide/$GUIDEVER/
+
+      - name: Update reference
+        run: |
+          GUIDEVER=`cat documentation/build/reference/version`
+          rm -rf docs/docs/reference/current
+          rm -rf docs/docs/reference/$GUIDEVER
+          rsync -ar documentation/build/reference/ docs/docs/reference/current/
+          rsync -ar documentation/build/reference/ docs/docs/reference/$GUIDEVER/
+
+      - name: look around again
+        run: |
+          ls -lAR docs/docs
