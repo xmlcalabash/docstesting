@@ -66,6 +66,8 @@ jobs:
           GUIDEVER=`jq -r .version documentation/build/userguide/details.json`
           rm -rf docs/docs/userguide/current
           rm -rf docs/docs/userguide/$GUIDEVER
+          mkdir -p docs/docs/userguide/current
+          mkdir -p docs/docs/userguide/$GUIDEVER
           rsync -ar documentation/build/userguide/ docs/docs/userguide/current/
           rsync -ar documentation/build/userguide/ docs/docs/userguide/$GUIDEVER/
 
@@ -74,6 +76,8 @@ jobs:
           REFVER=`jq -r .version documentation/build/reference/details.json`
           rm -rf docs/docs/reference/current
           rm -rf docs/docs/reference/$REFVER
+          mkdir -p docs/docs/reference/current
+          mkdir -p docs/docs/reference/$REFVER
           rsync -ar documentation/build/reference/ docs/docs/reference/current/
           rsync -ar documentation/build/reference/ docs/docs/reference/$REFVER/
 
