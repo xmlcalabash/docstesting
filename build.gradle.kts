@@ -1,3 +1,20 @@
+import java.io.BufferedReader
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileInputStream
+import java.io.InputStreamReader
+import java.io.PrintStream
+import java.net.HttpURLConnection
+import java.net.URI
+import java.net.URL
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
+import com.nwalsh.gradle.saxon.SaxonXsltTask
+import com.nwalsh.gradle.relaxng.validate.RelaxNGValidateTask
+import com.nwalsh.gradle.relaxng.translate.RelaxNGTranslateTask
+
 buildscript {
   repositories {
     mavenLocal()
@@ -33,23 +50,11 @@ plugins {
   id("buildlogic.kotlin-common-conventions")
 }
 
-import java.net.URI
-import java.net.URL
-import java.net.HttpURLConnection
-import java.io.File
-import java.io.BufferedReader
-import java.io.FileInputStream
-import java.io.PrintStream
-import java.io.InputStreamReader
-import java.io.ByteArrayOutputStream
-import java.time.LocalDateTime
-import com.nwalsh.gradle.saxon.SaxonXsltTask
-import com.nwalsh.gradle.relaxng.validate.RelaxNGValidateTask
-import com.nwalsh.gradle.relaxng.translate.RelaxNGTranslateTask
-
 val saxonVersion = project.properties["saxonVersion"].toString()
+val buildTime = ZonedDateTime.now(ZoneId.of("UTC")).truncatedTo(ChronoUnit.SECONDS);
+val iso8601dt = DateTimeFormatter.ISO_INSTANT.format(buildTime)
 
-val guideVersion = "1.0.0"
+val guideVersion = "1.1.0"
 val refVersion = "1.0.0"
 
 repositories {
@@ -122,14 +127,14 @@ tasks.register("userGuide") {
     val stream = PrintStream(File("documentation/build/userguide/index.html"))
     stream.println("<html><head><title>UserGuide</title></head><body><p>")
     stream.println("User guide version ${guideVersion}.<br/>")
-    stream.println(LocalDateTime.now())
+    stream.println(iso8601dt)
     stream.println("</p></body></html>")
     stream.close()
   }
 
   doLast {
-    val stream = PrintStream(File("documentation/build/userguide/version"))
-    stream.println(guideVersion)
+    val stream = PrintStream(File("documentation/build/userguide/details.json"))
+    stream.println("{\"version\": \"${guideVersion}\", \"pubdate\": \"${iso8601dt}\"}")
     stream.close()
   }
 }
@@ -143,14 +148,14 @@ tasks.register("reference") {
     val stream = PrintStream(File("documentation/build/reference/index.html"))
     stream.println("<html><head><title>Reference</title></head><body><p>")
     stream.println("Reference version ${refVersion}.<br/>")
-    stream.println(LocalDateTime.now())
+    stream.println(iso8601dt)
     stream.println("</p></body></html>")
     stream.close()
   }
 
   doLast {
-    val stream = PrintStream(File("documentation/build/reference/version"))
-    stream.println(refVersion)
+    val stream = PrintStream(File("documentation/build/reference/details.json"))
+    stream.println("{\"version\": \"${refVersion}\", \"pubdate\": \"${iso8601dt}\"}")
     stream.close()
   }
 }
