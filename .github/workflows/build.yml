@@ -61,12 +61,6 @@ jobs:
           path: "docs"
           ref: "gh-pages"
 
-      - name: look around
-        run: |
-          ls -l
-          ls -l docs
-          ls -l docs/docs
-
       - name: Update user guide
         run: |
           GUIDEVER=`cat documentation/build/userguide/version`
@@ -83,6 +77,22 @@ jobs:
           rsync -ar documentation/build/reference/ docs/docs/reference/current/
           rsync -ar documentation/build/reference/ docs/docs/reference/$GUIDEVER/
 
-      - name: look around again
-        run: |
-          ls -lAR docs/docs
+      - name: Deploy updated user guide
+        if: ${{ env.HAVE_ACCESS_TOKEN == 'true' && env.CI_BRANCH == 'main' }}
+        uses: JamesIves/github-pages-deploy-action@v4.6.4
+        with:
+          folder: docs/docs/userguide
+          token: ${{ secrets.ACCESS_TOKEN }}
+          repository-name: ${{ github.repository_owner}}/docs
+          branch: gh-pages
+          target-folder: /docs/userguide
+
+      - name: Deploy updated reference
+        if: ${{ env.HAVE_ACCESS_TOKEN == 'true' && env.CI_BRANCH == 'main' }}
+        uses: JamesIves/github-pages-deploy-action@v4.6.4
+        with:
+          folder: docs/docs/reference
+          token: ${{ secrets.ACCESS_TOKEN }}
+          repository-name: ${{ github.repository_owner}}/docs
+          branch: gh-pages
+          target-folder: /docs/reference
