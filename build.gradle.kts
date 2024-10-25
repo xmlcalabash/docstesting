@@ -55,7 +55,7 @@ val buildTime = ZonedDateTime.now(ZoneId.of("UTC")).truncatedTo(ChronoUnit.SECON
 val iso8601dt = DateTimeFormatter.ISO_INSTANT.format(buildTime)
 
 val guideVersion = "1.1.0"
-val refVersion = "1.0.0"
+val refVersion = "1.0.1"
 
 repositories {
   mavenLocal()
