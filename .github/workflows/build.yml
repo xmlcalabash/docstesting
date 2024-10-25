@@ -59,7 +59,7 @@ jobs:
         with:
           repository: ${{ github.repository_owner}}/docs
           path: "docs"
-          ref: "gh_pages"
+          ref: "gh-pages"
 
       - name: look around
         run: |
