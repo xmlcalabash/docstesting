@@ -61,44 +61,38 @@ jobs:
           path: "docs"
           ref: "gh-pages"
 
-      - name: print versions
+      - name: Update user guide
         run: |
-         GUIDEVER=`jq -r .version documentation/build/userguide/details.json`
-         REFVER=`jq -r .version documentation/build/reference/details.json`
-         echo Guide: $GUIDEVER, reference: $REFVER
+          GUIDEVER=`jq -r .version documentation/build/userguide/details.json`
+          rm -rf docs/docs/userguide/current
+          rm -rf docs/docs/userguide/$GUIDEVER
+          rsync -ar documentation/build/userguide/ docs/docs/userguide/current/
+          rsync -ar documentation/build/userguide/ docs/docs/userguide/$GUIDEVER/
 
-#      - name: Update user guide
-#        run: |
-#          GUIDEVER=`cat documentation/build/userguide/version`
-#          rm -rf docs/docs/userguide/current
-#          rm -rf docs/docs/userguide/$GUIDEVER
-#          rsync -ar documentation/build/userguide/ docs/docs/userguide/current/
-#          rsync -ar documentation/build/userguide/ docs/docs/userguide/$GUIDEVER/
-#
-#      - name: Update reference
-#        run: |
-#          REFVER=`cat documentation/build/reference/version`
-#          rm -rf docs/docs/reference/current
-#          rm -rf docs/docs/reference/$REFVER
-#          rsync -ar documentation/build/reference/ docs/docs/reference/current/
-#          rsync -ar documentation/build/reference/ docs/docs/reference/$REFVER/
-#
-#      - name: Deploy updated user guide
-#        if: ${{ env.HAVE_ACCESS_TOKEN == 'true' && env.CI_BRANCH == 'main' }}
-#        uses: JamesIves/github-pages-deploy-action@v4.6.4
-#        with:
-#          folder: docs/docs/userguide
-#          token: ${{ secrets.ACCESS_TOKEN }}
-#          repository-name: ${{ github.repository_owner}}/docs
-#          branch: gh-pages
-#          target-folder: /docs/userguide
-#
-#      - name: Deploy updated reference
-#        if: ${{ env.HAVE_ACCESS_TOKEN == 'true' && env.CI_BRANCH == 'main' }}
-#        uses: JamesIves/github-pages-deploy-action@v4.6.4
-#        with:
-#          folder: docs/docs/reference
-#          token: ${{ secrets.ACCESS_TOKEN }}
-#          repository-name: ${{ github.repository_owner}}/docs
-#          branch: gh-pages
-#          target-folder: /docs/reference
+      - name: Update reference
+        run: |
+          REFVER=`jq -r .version documentation/build/reference/details.json`
+          rm -rf docs/docs/reference/current
+          rm -rf docs/docs/reference/$REFVER
+          rsync -ar documentation/build/reference/ docs/docs/reference/current/
+          rsync -ar documentation/build/reference/ docs/docs/reference/$REFVER/
+
+      - name: Deploy updated user guide
+        if: ${{ env.HAVE_ACCESS_TOKEN == 'true' && env.CI_BRANCH == 'main' }}
+        uses: JamesIves/github-pages-deploy-action@v4.6.4
+        with:
+          folder: docs/docs/userguide
+          token: ${{ secrets.ACCESS_TOKEN }}
+          repository-name: ${{ github.repository_owner}}/docs
+          branch: gh-pages
+          target-folder: /docs/userguide
+
+      - name: Deploy updated reference
+        if: ${{ env.HAVE_ACCESS_TOKEN == 'true' && env.CI_BRANCH == 'main' }}
+        uses: JamesIves/github-pages-deploy-action@v4.6.4
+        with:
+          folder: docs/docs/reference
+          token: ${{ secrets.ACCESS_TOKEN }}
+          repository-name: ${{ github.repository_owner}}/docs
+          branch: gh-pages
+          target-folder: /docs/reference
